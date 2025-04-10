@@ -1,0 +1,57 @@
+---
+title: "Exercice 6"
+author: "Nom"
+date: "date"
+output: html_document
+---
+
+# Tache  1: Reflection
+
+Écrire vos reflexions ici
+
+# Tâche 2 : Visualiser l'incertitude avec gapminder
+
+Pour cet exercice, vous allez revoir les données de Hans Rosling sur la santé et la richesse. Installez le package **gapminder** si vous ne l'avez pas déjà fait. Installez également les packages **ggridges** et **gghalves**.
+
+```{r load-libraries-data, warning=FALSE, message=FALSE}
+library(tidyverse)  # For ggplot, dplyr, and friends
+library(gapminder)  # For health/wealth data
+library(ggridges)   # For ridge plots
+library(gghalves)   # For half geoms
+```
+
+## Histogrammes
+
+Faites un histogramme du PIB *enregistré* par habitant pour 1997 uniquement, sur les cinq continents.
+
+```{r filter-gapminder-1997}
+# Créer un jeu de données filtré
+```
+
+```{r plot-histogram}
+# Ajoutez un histogramme ici. Vous voudrez probablement remplir et facetter.
+# Vous devrez également ajouter scale_x_log10()
+```
+
+
+## Densités
+
+Faites un tracé de crête de l'espérance de vie au fil du temps, de 1952 à 2007. Vous devrez utiliser les données complètes de gapminder, et non les données de 1997 uniquement.
+
+```{r plot-ridgeplot}
+# Add a ridge plot here
+```
+
+
+## Boîtes, violons et amis
+
+Créez un jeu de données filtré qui sélectionne uniquement les données de 2007 *et* supprime l'Océanie. Montrez la distribution du PIB *enregistré* par habitant sur les *quatre* continents en utilisant une combinaison de diagrammes en boîte et/ou de diagrammes en violon et/ou de diagrammes en bande, soit superposés les uns sur les autres, soit en utilisant leurs homologues `geom_half_*()` de **gghalves**.
+
+```{r filter-gapminder-2007-sans-oceania}
+# Create a filtered dataset
+```
+
+```{r plot-distribution}
+# Add a plot here. You'll want to use either scale_x_log10() or scale_y_log10(),
+# depending on which direction your boxplots/violin plots/etc. go
+```
