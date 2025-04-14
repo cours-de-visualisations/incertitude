@@ -14,10 +14,11 @@ output: html_document
 Pour cet exercice, vous allez revoir les données de Hans Rosling sur la santé et la richesse. Installez le package **gapminder** si vous ne l'avez pas déjà fait. Installez également les packages **ggridges** et **gghalves**.
 
 ```{r load-libraries-data, warning=FALSE, message=FALSE}
-library(tidyverse)  # For ggplot, dplyr, and friends
-library(gapminder)  # For health/wealth data
-library(ggridges)   # For ridge plots
-library(gghalves)   # For half geoms
+##Chargement des librairies
+library(tidyverse)
+library(gapminder)
+library(ggridges)
+library(gghalves)
 ```
 
 ## Histogrammes
@@ -26,11 +27,22 @@ Faites un histogramme du PIB *enregistré* par habitant pour 1997 uniquement, su
 
 ```{r filter-gapminder-1997}
 # Créer un jeu de données filtré
+gap_1997 <- gapminder %>%
+  filter(year == 1997)
 ```
 
 ```{r plot-histogram}
-# Ajoutez un histogramme ici. Vous voudrez probablement remplir et facetter.
-# Vous devrez également ajouter scale_x_log10()
+## Histogramme du PIB par habitant en 1997
+ggplot(gap_1997, aes(x = gdpPercap, fill = continent)) +
+  geom_histogram(bins = 30, color = "white") +
+  facet_wrap(~ continent, scales = "free_y") +
+  scale_x_log10() +
+  labs(
+    title = "Histogramme du PIB par habitant en 1997",
+    x = "PIB par habitant (échelle logarithmique)",
+    y = "Nombre de pays"
+  ) +
+  theme_minimal()
 ```
 
 
@@ -39,7 +51,15 @@ Faites un histogramme du PIB *enregistré* par habitant pour 1997 uniquement, su
 Faites un tracé de crête de l'espérance de vie au fil du temps, de 1952 à 2007. Vous devrez utiliser les données complètes de gapminder, et non les données de 1997 uniquement.
 
 ```{r plot-ridgeplot}
-# Add a ridge plot here
+## Ridge plot de l’espérance de vie de 1952 à 2007
+ggplot(gapminder, aes(x = lifeExp, y = as.factor(year), fill = continent)) +
+  geom_density_ridges(scale = 2, alpha = 0.7) +
+  labs(
+    title = "Distribution de l’espérance de vie dans le monde (1952–2007)",
+    x = "Espérance de vie",
+    y = "Année"
+  ) +
+  theme_minimal()
 ```
 
 
@@ -49,9 +69,20 @@ Créez un jeu de données filtré qui sélectionne uniquement les données de 20
 
 ```{r filter-gapminder-2007-sans-oceania}
 # Create a filtered dataset
+gap_2007_sans_oceania <- gapminder %>%
+  filter(year == 2007, continent != "Oceania")
 ```
 
 ```{r plot-distribution}
-# Add a plot here. You'll want to use either scale_x_log10() or scale_y_log10(),
-# depending on which direction your boxplots/violin plots/etc. go
+##Distribution du PIB en 2007 sans l’Océanie
+ggplot(gap_2007_sans_oceania, aes(x = continent, y = gdpPercap, fill = continent)) +
+  gghalves::geom_half_violin(side = "l", alpha = 0.6) +
+  geom_boxplot(width = 0.2, outlier.shape = NA, alpha = 0.8) +
+  scale_y_log10() +
+  labs(
+    title = "Distribution du PIB par habitant en 2007 (sans Océanie)",
+    x = "Continent",
+    y = "PIB par habitant (log10)"
+  ) +
+  theme_minimal()
 ```
