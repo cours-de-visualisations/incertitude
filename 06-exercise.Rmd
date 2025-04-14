@@ -1,7 +1,7 @@
 ---
 title: "Exercice 6"
-author: "Nom"
-date: "date"
+author: "Groupe 5"
+date: "`r Sys.Date()`"
 output: html_document
 ---
 
@@ -13,7 +13,7 @@ output: html_document
 
 Pour cet exercice, vous allez revoir les données de Hans Rosling sur la santé et la richesse. Installez le package **gapminder** si vous ne l'avez pas déjà fait. Installez également les packages **ggridges** et **gghalves**.
 
-```{r load-libraries-data, warning=FALSE, message=FALSE}
+```{r load-libraries-data, warning=FALSE, message=FALSE, include=FALSE}
 ##Chargement des librairies
 library(tidyverse)
 library(gapminder)
@@ -65,24 +65,28 @@ ggplot(gapminder, aes(x = lifeExp, y = as.factor(year), fill = continent)) +
 
 ## Boîtes, violons et amis
 
-Créez un jeu de données filtré qui sélectionne uniquement les données de 2007 *et* supprime l'Océanie. Montrez la distribution du PIB *enregistré* par habitant sur les *quatre* continents en utilisant une combinaison de diagrammes en boîte et/ou de diagrammes en violon et/ou de diagrammes en bande, soit superposés les uns sur les autres, soit en utilisant leurs homologues `geom_half_*()` de **gghalves**.
+Créez un jeu de données filtré qui sélectionne uniquement les données de 2007 *et supprime l'Océanie.*  Montrez la distribution du PIB *enregistré* par habitant sur les *quatre* continents en utilisant une combinaison de diagrammes en boîte et/ou de diagrammes en violon et/ou de diagrammes en bande, soit superposés les uns sur les autres, soit en utilisant leurs homologues `geom_half_*()` de **gghalves**.
 
 ```{r filter-gapminder-2007-sans-oceania}
-# Create a filtered dataset
 gap_2007_sans_oceania <- gapminder %>%
   filter(year == 2007, continent != "Oceania")
 ```
 
 ```{r plot-distribution}
-##Distribution du PIB en 2007 sans l’Océanie
 ggplot(gap_2007_sans_oceania, aes(x = continent, y = gdpPercap, fill = continent)) +
-  gghalves::geom_half_violin(side = "l", alpha = 0.6) +
-  geom_boxplot(width = 0.2, outlier.shape = NA, alpha = 0.8) +
+  geom_half_violin(side = "l", alpha = 0.6) +
+  geom_half_boxplot(
+    side = "r", width = 0.3, outlier.shape = NA, alpha = 0.8
+  ) +
   scale_y_log10() +
   labs(
     title = "Distribution du PIB par habitant en 2007 (sans Océanie)",
     x = "Continent",
     y = "PIB par habitant (log10)"
   ) +
-  theme_minimal()
+  theme_minimal()+
+  coord_flip()
+
 ```
+
+
