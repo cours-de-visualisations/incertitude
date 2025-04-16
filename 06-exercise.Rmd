@@ -7,7 +7,7 @@ output: html_document
 
 # Tache  1: Reflection
 
-Écrire vos reflexions ici
+
 
 # Tâche 2 : Visualiser l'incertitude avec gapminder
 
@@ -51,15 +51,22 @@ ggplot(gap_1997, aes(x = gdpPercap, fill = continent)) +
 Faites un tracé de crête de l'espérance de vie au fil du temps, de 1952 à 2007. Vous devrez utiliser les données complètes de gapminder, et non les données de 1997 uniquement.
 
 ```{r plot-ridgeplot}
-## Ridge plot de l’espérance de vie de 1952 à 2007
-ggplot(gapminder, aes(x = lifeExp, y = as.factor(year), fill = continent)) +
-  geom_density_ridges(scale = 2, alpha = 0.7) +
+gap_2007_sans_oceania <- gapminder %>%
+  filter(year == 2007, continent != "Oceania")
+
+ggplot(gap_2007_sans_oceania, aes(x = continent, y = gdpPercap, fill = continent)) +
+  geom_half_violin(side = "r", alpha = 0.6) +
+  geom_half_boxplot(side = "l", width = 0.3, outlier.shape = NA, alpha = 0.8) +
+  geom_half_point(side = "l") +
+  scale_y_log10() +
   labs(
-    title = "Distribution de l’espérance de vie dans le monde (1952–2007)",
-    x = "Espérance de vie",
-    y = "Année"
+    title = "Distribution du PIB par habitant en 2007 (sans Océanie)",
+    x = "Continent",
+    y = "PIB par habitant (log10)"
   ) +
-  theme_minimal()
+  theme_minimal() +
+  coord_flip()
+
 ```
 
 
